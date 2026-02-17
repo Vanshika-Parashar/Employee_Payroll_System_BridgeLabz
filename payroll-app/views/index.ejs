@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Payroll System</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header-actions">
+            <h1>Employees Dashboard</h1>
+            <a href="/add" class="btn btn-primary">Add New Employee</a>
+        </div>
+
+        <% 
+            const noOfEmployees = employees.length;
+            const uniqueDepartments = [...new Set(employees.map(emp => emp.department))];
+            const noOfDepartments = uniqueDepartments.length;
+            let totalBasic = 0;
+            let totalTax = 0;
+            let totalNet = 0;
+
+            employees.forEach(emp => {
+                totalBasic += emp.basicSalary;
+                const tax = emp.basicSalary * 0.12;
+                totalTax += tax;
+                totalNet += (emp.basicSalary - tax);
+            });
+
+            const formatINR = (amount) => amount.toLocaleString('en-IN', { 
+                style: 'currency', 
+                currency: 'INR',
+                maximumFractionDigits: 0 
+            });
+        %>
+
+        <div class="summary-cards">
+            <div class="stat-card">
+                <h3>👥 Employees</h3>
+                <p><%= noOfEmployees %></p>
+            </div>
+            <div class="stat-card">
+                <h3>🏢 Departments</h3>
+                <p><%= noOfDepartments %></p>
+            </div>
+            <div class="stat-card">
+                <h3>💰 Total Basic Salary</h3>
+                <p><%= formatINR(totalBasic) %></p>
+            </div>
+            <div class="stat-card">
+                <h3>📊 Total Tax (12%)</h3>
+                <p><%= formatINR(totalTax) %></p>
+            </div>
+            <div class="stat-card">
+                <h3>💵 Total Net Salary</h3>
+                <p class="highlight"><%= formatINR(totalNet) %></p>
+            </div>
+        </div>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Department</th>
+                    <th>Basic Salary</th>
+                    <th>Tax (12%)</th>
+                    <th>Net Salary</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% employees.forEach(emp => { %>
+                    <% 
+                        const tax = emp.basicSalary * 0.12; 
+                        const netSalary = emp.basicSalary - tax; 
+                    %>
+                    <tr>
+                        <td><%= emp.id %></td>
+                        <td><strong><%= emp.name %></strong></td>
+                        <td><span class="badge"><%= emp.department %></span></td>
+                        <td><%= formatINR(emp.basicSalary) %></td>
+                        <td><%= formatINR(tax) %></td>
+                        <td><strong class="text-success"><%= formatINR(netSalary) %></strong></td>
+                        <td class="actions">
+                            <a href="/edit/<%= emp.id %>" class="btn btn-edit">&#128395</a>
+                            <a href="/delete/<%= emp.id %>" class="btn btn-delete" onclick="return confirm('Delete <%= emp.name %>?')">🗑️</a>
+                        </td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

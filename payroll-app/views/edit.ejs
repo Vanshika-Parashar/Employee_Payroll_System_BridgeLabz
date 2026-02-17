@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Employee</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <div class="container form-container">
+        <h1>Edit Employee</h1>
+        <form action="/edit/<%= employee.id %>" method="POST">
+            <div class="form-group">
+                <label>Name:</label>
+                <input type="text" name="name" value="<%= employee.name %>" required>
+            </div>
+            <div class="form-group">
+                <label>Department:</label>
+                <div class="radio-group">
+                    <label class="radio-label">
+                        <input type="radio" name="department" value="CSE" <%= employee.department === 'CSE' ? 'checked' : '' %> required> 
+                        CSE
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="department" value="MECHANICAL" <%= employee.department === 'MECHANICAL' ? 'checked' : '' %> required> 
+                        MECHANICAL
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="department" value="CIVIL" <%= employee.department === 'CIVIL' ? 'checked' : '' %> required> 
+                        CIVIL
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="department" value="ELECTRONICS" <%= employee.department === 'ELECTRONICS' ? 'checked' : '' %> required> 
+                        ELECTRONICS
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="department" value="AI/ML" <%= employee.department === 'AI/ML' ? 'checked' : '' %> required> 
+                        AI/ML
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Basic Salary (₹):</label>
+                <input type="number" name="basicSalary" value="<%= employee.basicSalary %>" min="0" required>
+            </div>
+            <div class="actions">
+                <button type="submit" class="btn btn-primary">Update Employee</button>
+                <a href="/" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
